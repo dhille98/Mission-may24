@@ -11,6 +11,7 @@
 - Thymeleaf
 - HTML5
 - Maven
+- mvn package -DskipTests=true
 
 ## Features
 
