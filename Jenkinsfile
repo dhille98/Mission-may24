@@ -9,7 +9,7 @@ pipeline {
     stages{
         stage ('git clone'){
             steps {
-                git url: 'https://github.com/jaiswaladi246/Mission.git', branch: 'main'
+                git url: 'https://github.com/dhille98/Mission-may24.git', branch: 'dev'
             }
             
         }
@@ -31,6 +31,13 @@ pipeline {
              steps { 
                 sh "trivy fs --format table -o trivy-fs-report.html ."              
             } 
+        }
+        stage('nexous repositary'){
+            steps {
+                withMaven(globalMavenSettingsConfig: 'maven-settingsfile', jdk: 'java', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                sh 'mvn deploy -DskipTests=true'
+            }
+            }
         }          
 
 
