@@ -6,8 +6,10 @@ pipeline {
         maven 'maven3'
     }
     environment {
-        
+        DOCKERHUB_CREDENTIALS = 'dockerhub' // Replace with your credentials ID
+        DOCKERHUB_REPO = 'dhillevajja/buildgame' // Replace with your Docker Hub repository
         IMAGE_TAG = "${env.BUILD_NUMBER}" // Use the build number as the tag
+       
     }
     
     stages{
@@ -36,14 +38,14 @@ pipeline {
                 sh "trivy fs --format table -o trivy-fs-report.html ."              
             } 
         }
-       stage('image build')  {
+       stage('Build') {
             steps {
-                // This step should not normally be used in your script. Consult the inline help for details.
-                withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
-                sh 'docker image build -t dhillevajja/missionjenkins:$IMAGE_TAG .'
-}
+                script {
+                    echo "Building Docker image with tag: $IMAGE_TAG"
+                    sh 'docker build -t $DOCKERHUB_REPO:$IMAGE_TAG .'
+                }
             }
-       }    
+        }   
 
 
     }
