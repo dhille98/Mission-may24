@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         DOCKERHUB_CREDENTIALS = 'dockerhub' // Replace with your credentials ID
-        DOCKERHUB_REPO = 'dhillevajja/buildgame' // Replace with your Docker Hub repository
+        DOCKERHUB_REPO = 'dhillevajja/missionjenkins' // Replace with your Docker Hub repository
         IMAGE_TAG = "${env.BUILD_NUMBER}" // Use the build number as the tag
        
     }
