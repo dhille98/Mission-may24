@@ -65,8 +65,14 @@ pipeline {
                 }
             }
         }
+         stage('kubenetes deployment'){
+            steps {
+               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://10.182.0.60:6443') {
+               sh 'kubectl apply -f ds.yml'
+            }
+        }
    
-
+      }
 
     }
 }
