@@ -5,6 +5,10 @@ pipeline {
         jdk 'java'
         maven 'maven3'
     }
+    environment {
+        
+        IMAGE_TAG = "${env.BUILD_NUMBER}" // Use the build number as the tag
+    }
     
     stages{
         stage ('git clone'){
@@ -32,13 +36,14 @@ pipeline {
                 sh "trivy fs --format table -o trivy-fs-report.html ."              
             } 
         }
-        stage('nexous repositary'){
+       stage('image build')  {
             steps {
-                withMaven(globalMavenSettingsConfig: 'maven-settingsfile', jdk: 'java', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-                sh 'mvn deploy -DskipTests=true'
+                // This step should not normally be used in your script. Consult the inline help for details.
+                withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
+                sh 'docker image build -t dhillevajja/missionjenkins:$IMAGE_TAG .'
+}
             }
-            }
-        }          
+       }    
 
 
     }
