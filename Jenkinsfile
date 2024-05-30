@@ -45,7 +45,27 @@ pipeline {
                     sh 'docker build -t $DOCKERHUB_REPO:$IMAGE_TAG .'
                 }
             }
-        }   
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                        echo "Logged in to Docker Hub"
+                    }
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                        sh 'docker push $DOCKERHUB_REPO:$IMAGE_TAG'
+                    }
+                }
+            }
+        }
+   
 
 
     }
