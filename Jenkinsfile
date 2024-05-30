@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'JDK-17'}
+    agent any
     
     tools{
         jdk 'java'
@@ -68,7 +68,7 @@ pipeline {
          stage('kubenetes deployment'){
             steps {
                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://10.182.0.60:6443') {
-               sh 'kubectl apply -f deployment.yml -n webapps'
+               sh 'kubectl apply -f deployment.yml -n webapps  '
             }
         }
    
